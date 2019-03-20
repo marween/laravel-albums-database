@@ -13,7 +13,7 @@ class Albums extends Model
     'year',
     'label',
     'note',
-    'artists' => 'array',
-    'songs' => 'array'
+    'artists',
+    'songs'
   ];
 }

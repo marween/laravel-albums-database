@@ -39,8 +39,8 @@ class albumsController extends Controller
 
 
 
-       if($request->hasfile('filename'))
-       {
+     if($request->hasfile('filename'))
+     {
         $file = $request->file('filename');
         $name=time().$file->getClientOriginalName();
         $file->move(public_path().'/images/', $name);
@@ -54,14 +54,9 @@ class albumsController extends Controller
         'note'=>'required',
     ]);
 
-    $collection = [];
-    $collection=$request->validate([
-        'artists'=>'required|array',
-        'songs'=>'required|array'
-
-    ]);
-    //var_dump($collection['artists']);exit();
-
+   
+   // var_dump($collection['artists']);exit();
+// var_dump($request->get('artists')->explode(delimiter, string)); exit();
     $albums = new Albums([
         'name' => $request->get('name'),
         'file'=> $request->get('file'),
@@ -69,15 +64,12 @@ class albumsController extends Controller
         'year'=> $request->get('year'),
         'label'=> $request->get('label'),
         'note'=> $request->get('note'),
-        //$collection['artists'],
-        //$collection['songs']
+        'artists'=> json_encode($request->get('artists')),
+        'songs'=> json_encode($request->get('songs'))
+      
 
-
-        'artists'=> implode('-', $request->get('artists')),
-        'songs'=> implode('-', $request->get('songs')),
-
-
-    ]);
+   ]);
+   
     $albums->save();
     return redirect('/albums')->with('success', 'Stock has been added');
     
