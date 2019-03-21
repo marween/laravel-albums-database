@@ -21,8 +21,8 @@ class CreateAlbumsTable extends Migration
             $table->year('year');
             $table->string('label');
             $table->string('note');
-            $table->json('artists')->default('{}');
-            $table->json('songs')->default('{}');
+            $table->jsonb('artists')->default('{}');
+            $table->jsonb('songs')->default('{}');
             $table->timestamps();
             
         });
