@@ -9,6 +9,10 @@
     margin-top: 40px;
   }
 </style>
+
+
+
+
 <div class="content">
   <div class="title m-b-md">
     <h1>Mes albums</h1>
@@ -20,8 +24,18 @@
     {{ session()->get('success') }}  
   </div><br />
   @endif
-  
-  <div> <a href="{{ route('albums.create')}}" class="btn btn-primary">Add</a></div>
+  <nav class="navbar navbar-default navbar-inverse"> 
+    <nav class="navbar navbar-light bg-light justify-content-between">
+      
+      <form class="form-inline" action="{{route('albums.search')}}">
+        <input class="form-control mr-sm-2" value="" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    
+    </nav>
+     <div> <a href="{{ route('albums.create')}}" class="btn btn-primary">Add</a></div>
+  </nav> 
+ 
   <table class="table table-striped">
     <tbody>
       @foreach($albums as $album)
@@ -35,6 +49,8 @@
         <td>{{$album->artists}}</td>
         <td>{{$album->songs}}</td>
         <td>@auth <a href="{{ route('albums.edit',$album->id)}}" class="btn btn-primary">Edit</a>
+        @endauth</td>
+         <td>@auth <a href="{{ route('albums.show',$album->id)}}" class="btn btn-primary">Show</a>
         @endauth</td>
         <td>
 

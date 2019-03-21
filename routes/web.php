@@ -12,12 +12,12 @@
 */
 
 
-Route::resource ('albums', 'albumsController');
+Route::resource ('albums', 'AlbumsController');
+Route::get('/search','AlbumsController@search')->name('albums.search');
+
 
 Auth::routes();
 
-Route::get('/', 'albumsController@index');
+Route::get('/', function () {return view('welcome');});
 
-// toutes les routes de connection renvoi vers home
-// pour ne pas modifier les fichiers partout j'ai renvoyé vers l'index de l'album
 Route::get('/home', 'HomeController@index')->name('home');

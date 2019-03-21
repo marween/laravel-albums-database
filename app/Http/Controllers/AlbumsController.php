@@ -1,12 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Albums;
-use Validator;
 
-class albumsController extends Controller
+class AlbumsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -66,14 +64,14 @@ class albumsController extends Controller
 
     ]);
 
-    $albums->save();
+    $id = $albums->save();
    
 
-    return redirect('/albums')->with('success', 'Album has been added');
+    //return redirect('/albums')->with('success', 'Album has been added');
+     return $id ? "Created album successfully" : 'There was a problem trying to insert into the database';
     
     
-}
-
+    }
     /**
      * Display the specified resource.
      *
@@ -82,7 +80,9 @@ class albumsController extends Controller
      */
     public function show($id)
     {
-        //
+         $albums = Albums::find($id);
+
+        return view('albums.show', compact('albums'));
     }
 
     /**
@@ -128,9 +128,10 @@ class albumsController extends Controller
         $album->artists = json_encode($request->get('artists'));
         $album->songs = json_encode($request->get('songs'));
 
-        $album->save();
+       $id = $album->save();
 
-        return redirect('/albums')->with('success', 'Album has been updated');
+       // return redirect('/albums')->with('success', 'Album has been updated');
+         return $id ? "Updated album successfully" : 'There was a problem trying to update the album';
     }
 
     /**
@@ -144,6 +145,40 @@ class albumsController extends Controller
         $albums = Albums::find($id);
         $albums->delete();
 
-        return redirect('/albums')->with('success', 'Stock has been deleted Successfully');
+       // return redirect('/albums')->with('success', 'Stock has been deleted Successfully');
+         return $status ? "Deleted album successfully" : 'There was a problem trying to delete the album';
+
     }
+
+    
+    /**
+     * scherac a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     */
+    public function search(Request $request)
+    {
+        var_dump($request->filled('id')) ;exit();
+       
+        if ($request->has('id')) {
+            $result = Albums::find($request->input('id'));
+            return $result ? $result : 'No such album.';
+        } 
+
+        elseif ($request->has('queryString')) {
+            
+            $result = Albums::where(
+                'artists', 'ILIKE', '%'.$request->input('queryString').'%')->orWhere(
+                'name', 'ILIKE', '%'.$request->input('queryString').'%')->orWhere(
+                'label', 'ILIKE', '%'.$request->input('queryString').'%')->orWhere(
+                'gender', 'ILIKE', '%'.$request->input('queryString').'%')->orWhere(
+                'songs', 'ILIKE', '%'.$request->input('queryString').'%')->get();
+            
+            return count($result) > 0 ? $result : 'No such album.';
+
+        }
+        return Albums::inRandomOrder()->first();
+    }
+
 }
