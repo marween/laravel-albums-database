@@ -16,15 +16,7 @@
     Add Album
   </div>
   <div class="card-body">
-    @if ($errors->any())
-    <div class="alert alert-danger">
-      <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div><br />
-    @endif
+  
     <form method="post" action="{{ route('albums.store') }}">
       <div class="form-group">
         @csrf
@@ -33,7 +25,7 @@
       </div>
       <div class="form-group">
         @csrf
-        <label for="name">files:</label>
+        <label for="name">file:</label>
         <input type="file" class="form-control" name="file"/>
       </div>
       <div class="form-group">

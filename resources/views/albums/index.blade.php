@@ -50,8 +50,8 @@
         <td>{{$album->songs}}</td>
         <td>@auth <a href="{{ route('albums.edit',$album->id)}}" class="btn btn-primary">Edit</a>
         @endauth</td>
-         <td>@auth <a href="{{ route('albums.show',$album->id)}}" class="btn btn-primary">Show</a>
-        @endauth</td>
+         <td> <a href="{{ route('albums.show',$album->id)}}" class="btn btn-primary">Show</a>
+        </td>
         <td>
 
           @auth

@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Albums;
-
 class AlbumsController extends Controller
 {
     /**
@@ -14,10 +12,8 @@ class AlbumsController extends Controller
     public function index()
     {
        $albums = Albums::all();
-
        return view('albums.index', compact('albums'));
    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -27,7 +23,6 @@ class AlbumsController extends Controller
     {
         return view('albums.create');
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -36,41 +31,35 @@ class AlbumsController extends Controller
      */
     public function store(Request $request)
     {
+         if($request->hasfile('filename'))
+         {
+            $file = $request->file('filename');
+            $name=time().$file->getClientOriginalName();
+            $file->move(public_path().'/images/', $name);
+        }
+        $request->validate([
+            'name'=>'required',
+            'gender'=>'required',
+            'year' => 'required',
+            'label'=>'required',
+            'note'=>'required',
+        ]);
+        $albums = new Albums([
+            'name' => $request->get('name'),
+            'file'=> $request->get('file'),
+            'gender'=> $request->get('gender'),
+            'year'=> $request->get('year'),
+            'label'=> $request->get('label'),
+            'note'=> $request->get('note'),
+            'artists'=> json_encode($request->get('artists')),
+            'songs'=> json_encode($request->get('songs'))
+        ]);
+        $status = $albums->save();
 
-       if($request->hasfile('filename'))
-       {
-        $file = $request->file('filename');
-        $name=time().$file->getClientOriginalName();
-        $file->move(public_path().'/images/', $name);
-    }
-    $request->validate([
-        'name'=>'required',
-        'gender'=>'required',
-        'year' => 'required',
-        'label'=>'required',
-        'note'=>'required',
-    ]);
-
-    $albums = new Albums([
-        'name' => $request->get('name'),
-        'file'=> $request->get('file'),
-        'gender'=> $request->get('gender'),
-        'year'=> $request->get('year'),
-        'label'=> $request->get('label'),
-        'note'=> $request->get('note'),
-
-        'artists'=> json_encode($request->get('artists')),
-        'songs'=> json_encode($request->get('songs'))
-
-    ]);
-
-    $id = $albums->save();
-   
-
-    //return redirect('/albums')->with('success', 'Album has been added');
-     return $id ? "Created album successfully" : 'There was a problem trying to insert into the database';
-    
-    
+        //return redirect('/albums')->with('success', 'Album has been added');
+        return $status ? "OK" : 'RATE';
+        
+        
     }
     /**
      * Display the specified resource.
@@ -81,10 +70,9 @@ class AlbumsController extends Controller
     public function show($id)
     {
          $albums = Albums::find($id);
-
-        return view('albums.show', compact('albums'));
+         return response()->json($albums, 200);
+        // return view('albums.show', compact('albums'));
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -94,10 +82,8 @@ class AlbumsController extends Controller
     public function edit($id)
     {
         $albums = Albums::find($id);
-
         return view('albums.edit', compact('albums'));
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -107,7 +93,6 @@ class AlbumsController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $request->validate([
             'name'=>'required',
             'gender'=>'required',
@@ -115,9 +100,6 @@ class AlbumsController extends Controller
             'label'=>'required',
             'note'=>'required',
         ]);
-
-
-
         $album = Albums::find($id);
         $album->name = $request->get('name');
         $album->file = $request->get('file');
@@ -127,13 +109,11 @@ class AlbumsController extends Controller
         $album->note = $request->get('note');
         $album->artists = json_encode($request->get('artists'));
         $album->songs = json_encode($request->get('songs'));
-
-       $id = $album->save();
-
+       
+        $status = $album->save();
        // return redirect('/albums')->with('success', 'Album has been updated');
-         return $id ? "Updated album successfully" : 'There was a problem trying to update the album';
+         return $status ? "OK" : 'RATE';
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -143,42 +123,10 @@ class AlbumsController extends Controller
     public function destroy($id)
     {
         $albums = Albums::find($id);
-        $albums->delete();
-
+        $status=$albums->delete();
        // return redirect('/albums')->with('success', 'Stock has been deleted Successfully');
-         return $status ? "Deleted album successfully" : 'There was a problem trying to delete the album';
-
+         return $status ? "OK" : 'RATE';
     }
-
     
-    /**
-     * scherac a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     * @param  \Illuminate\Http\Request $request
-     */
-    public function search(Request $request)
-    {
-        var_dump($request->filled('id')) ;exit();
-       
-        if ($request->has('id')) {
-            $result = Albums::find($request->input('id'));
-            return $result ? $result : 'No such album.';
-        } 
-
-        elseif ($request->has('queryString')) {
-            
-            $result = Albums::where(
-                'artists', 'ILIKE', '%'.$request->input('queryString').'%')->orWhere(
-                'name', 'ILIKE', '%'.$request->input('queryString').'%')->orWhere(
-                'label', 'ILIKE', '%'.$request->input('queryString').'%')->orWhere(
-                'gender', 'ILIKE', '%'.$request->input('queryString').'%')->orWhere(
-                'songs', 'ILIKE', '%'.$request->input('queryString').'%')->get();
-            
-            return count($result) > 0 ? $result : 'No such album.';
-
-        }
-        return Albums::inRandomOrder()->first();
-    }
-
+   
 }

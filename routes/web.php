@@ -12,7 +12,7 @@
 */
 
 
-Route::resource ('albums', 'AlbumsController');
+Route::resource('albums', 'AlbumsController');
 Route::get('/search','AlbumsController@search')->name('albums.search');
 
 

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Albums extends Model
 {
    protected $fillable = [
-    'id',
     'name',
     'file',
     'gender',
@@ -17,4 +16,8 @@ class Albums extends Model
     'artists',
     'songs'
   ];
+
+    protected $hidden = [
+        'created_at', 'updated_at',
+    ];
 }
