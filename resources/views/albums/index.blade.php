@@ -25,9 +25,7 @@
   </div><br />
   @endif
   <nav class="navbar navbar-default navbar-inverse"> 
-    <nav class="navbar navbar-light bg-light justify-content-between">
-    
-    </nav>
+
      <div> <a href="{{ route('albums.create')}}" class="btn btn-primary">Add</a></div>
   </nav> 
  
