@@ -24,10 +24,9 @@
     {{ session()->get('success') }}  
   </div><br />
   @endif
-  <nav class="navbar navbar-default navbar-inverse"> 
 
      <div> <a href="{{ route('albums.create')}}" class="btn btn-primary">Add</a></div>
-  </nav> 
+ 
  
   <table class="table table-striped">
     <tbody>
