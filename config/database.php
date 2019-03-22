@@ -1,20 +1,11 @@
 <?php
 
+$url = parse_url(getenv("DATABASE_URL"));
 
-$host = '127.0.0.1';
-$port = '5432';
-$username = 'becode';
-$password = 'becode';
-$database = 'forge';
-if(env('APP_ENV', 'production') == 'production'){
-    $url = parse_url(getenv("DATABASE_URL"));
-    $host = $url["host"];
-    $port = $url["port"];
-    $username = $url["user"];
-    $password = $url["pass"];
-    $database = ltrim($url["path"], "/");
-}
-
+$host = $url["host"];
+$username = $url["user"];
+$password = $url["pass"];
+$database = substr($url["path"], 1);
 
 return [
 
@@ -29,7 +20,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +47,7 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
-        'mysql' => [
+        'pgsql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
