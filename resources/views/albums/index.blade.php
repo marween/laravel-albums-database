@@ -26,11 +26,6 @@
   @endif
   <nav class="navbar navbar-default navbar-inverse"> 
     <nav class="navbar navbar-light bg-light justify-content-between">
-      
-      <form class="form-inline" action="{{route('albums.search')}}">
-        <input class="form-control mr-sm-2" value="" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
     
     </nav>
      <div> <a href="{{ route('albums.create')}}" class="btn btn-primary">Add</a></div>

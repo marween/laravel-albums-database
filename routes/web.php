@@ -11,13 +11,8 @@
 |
 */
 
-
-Route::resource('albums', 'AlbumsController');
-Route::get('/search','AlbumsController@search')->name('albums.search');
-
-
-Auth::routes();
-
+Route::resource('albums', 'WebAlbumsController');
 Route::get('/', function () {return view('welcome');});
 
 Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes();

@@ -2,7 +2,8 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Albums;
-class AlbumsController extends Controller
+
+class WebAlbumsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -56,8 +57,8 @@ class AlbumsController extends Controller
         ]);
         $status = $albums->save();
 
+        return redirect('/albums')->with('success', 'Album has been added');
         
-        return $status ? "OK" : 'raté';
         
         
     }
@@ -70,8 +71,8 @@ class AlbumsController extends Controller
     public function show($id)
     {
          $albums = Albums::find($id);
-         return response()->json($albums, 200);
         
+         return view('albums.show', compact('albums'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -111,8 +112,8 @@ class AlbumsController extends Controller
         $album->songs = json_encode($request->get('songs'));
        
         $status = $album->save();
-      
-         return $status ? "OK" : 'raté';
+       return redirect('/albums')->with('success', 'Album has been updated');
+         
     }
     /**
      * Remove the specified resource from storage.
@@ -124,31 +125,10 @@ class AlbumsController extends Controller
     {
         $albums = Albums::find($id);
         $status=$albums->delete();
-      
-         return $status ? "OK" : 'raté';
+       return redirect('/albums')->with('success', 'Stock has been deleted Successfully');
+         
     }
     
    
-    public function search(Request $request)
-    {
-       
-        if ($request->has('id')) {
-            
-            $res = Albums::find($request->input('id'));
-            return $res ? $res : 'raté.';
-        }
-        
-        elseif ($request->has('string')) {
-            
-            $res = Albums::where(
-                'artists', 'LIKE', '%'.$request->input('string').'%')->orWhere(
-                'name', 'LIKE', '%'.$request->input('string').'%')->get();
 
-
-            return $res ? $res : 'raté.';
-         } 
-       
-        return 'coucou';
-        
-    }
 }

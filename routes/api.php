@@ -25,3 +25,5 @@ Route::middleware('auth:api')->group(function () {
     Route::get('albums/{id}', 'AlbumsController@show');
 });
 Route::post('login', 'ApiAuthController@login');
+
+
