@@ -19,7 +19,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('user', 'ApiAuthController@user');
     
     Route::post('albums/create', 'AlbumsController@store');
-    //Route::get('albums/search', 'AlbumsController@search');
+    Route::get('albums/search', 'AlbumsController@search');
     Route::delete('albums/{id}', 'AlbumsController@destroy');
     Route::put('albums/{id}', 'AlbumsController@update');
     Route::get('albums/{id}', 'AlbumsController@show');

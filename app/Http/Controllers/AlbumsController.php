@@ -57,7 +57,7 @@ class AlbumsController extends Controller
         $status = $albums->save();
 
         //return redirect('/albums')->with('success', 'Album has been added');
-        return $status ? "OK" : 'RATE';
+        return $status ? "OK" : 'raté';
         
         
     }
@@ -112,7 +112,7 @@ class AlbumsController extends Controller
        
         $status = $album->save();
        // return redirect('/albums')->with('success', 'Album has been updated');
-         return $status ? "OK" : 'RATE';
+         return $status ? "OK" : 'raté';
     }
     /**
      * Remove the specified resource from storage.
@@ -125,8 +125,30 @@ class AlbumsController extends Controller
         $albums = Albums::find($id);
         $status=$albums->delete();
        // return redirect('/albums')->with('success', 'Stock has been deleted Successfully');
-         return $status ? "OK" : 'RATE';
+         return $status ? "OK" : 'raté';
     }
     
    
+    public function search(Request $request)
+    {
+       
+        if ($request->has('id')) {
+            
+            $res = Albums::find($request->input('id'));
+            return $res ? $res : 'raté.';
+        }
+        
+        elseif ($request->has('string')) {
+            
+            $res = Albums::where(
+                'artists', 'LIKE', '%'.$request->input('string').'%')->orWhere(
+                'name', 'LIKE', '%'.$request->input('string').'%')->get();
+
+
+            return $res ? $res : 'raté.';
+         } 
+       
+        return 'coucou';
+        
+    }
 }
