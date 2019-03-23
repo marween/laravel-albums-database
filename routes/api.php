@@ -13,17 +13,19 @@ use Illuminate\Http\Request;
 |
 */
 
+
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', 'ApiAuthController@logout');
     Route::post('refresh', 'ApiAuthController@refresh');
     Route::get('user', 'ApiAuthController@user');
-    
+
     Route::post('albums/create', 'AlbumsController@store');
     Route::get('albums/search', 'AlbumsController@search');
+    Route::get('albums', 'AlbumsController@index');
     Route::delete('albums/{id}', 'AlbumsController@destroy');
     Route::put('albums/{id}', 'AlbumsController@update');
     Route::get('albums/{id}', 'AlbumsController@show');
 });
-Route::post('login', 'ApiAuthController@login');
 
+Route::post('login', 'ApiAuthController@login');
 

@@ -12,7 +12,7 @@ class AlbumsController extends Controller
     public function index()
     {
        $albums = Albums::all();
-       return view('albums.index', compact('albums'));
+      return response()->json($albums, 200);
    }
     /**
      * Show the form for creating a new resource.
