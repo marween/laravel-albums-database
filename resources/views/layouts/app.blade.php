@@ -1,4 +1,4 @@
-@section('head')
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -74,7 +74,7 @@
         }
     </style>
 </head>
-@endsection
+
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
