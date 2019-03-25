@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-<div class="flex-center position-ref full-height">
+
 
 
 @section('content')
@@ -14,6 +14,6 @@
 
         </div>
     </div>
-</div>
+
 
 @endsection
