@@ -1,4 +1,6 @@
 @extends('layouts.app')
+
+@section('head')@endsection
     <body>
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
@@ -28,4 +30,5 @@
         </div>
     </body>
 </html>
+
 
