@@ -93,24 +93,6 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        @if (Route::has('login'))
-                        
-                        @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                        @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                        @endif
-                        @endauth
-                        
-                        @endif
-
                         <!-- Authentication Links -->
                         @guest
                         <li class="nav-item">
