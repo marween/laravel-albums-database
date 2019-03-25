@@ -130,6 +130,8 @@
 
     </div>
 
+    @yield('title')
+
     <div class="container">
         @yield('content')
     </div>
